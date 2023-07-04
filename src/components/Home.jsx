@@ -31,6 +31,25 @@ export default function () {
     getData();
   }, []);
 
+  const deleteUser = async(id) =>{
+    const res3 = await fetch(`/deleteuser/${id}`,{
+      method : "DELETE",
+      headers : {
+        "Content-Type" : "application/json"
+      },
+    });
+
+    const deleteData = await res3.json();
+    console.log(deleteData);
+
+    if(res3.status === 404 || !deleteData){
+        alert('not deleted some internal error');
+    }else{
+      console.log('user deleted');
+      getData();
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -68,6 +87,9 @@ export default function () {
                           {" "}
                           Number{" "}
                         </th>
+                        <th scope="col" class=" px-6 py-4">
+                          {" "}EDITS
+                        </th>
                         <th scope="col" class=" px-6 py-4"></th>
                       </tr>
                     </thead>
@@ -77,19 +99,16 @@ export default function () {
                           return (
                             <>
                         <tr class="border-b dark:border-neutral-500">
+                        <td class="whitespace-nowrap  px-6 py-4 font-medium">
+                            {index + 1}
+                          </td>
                           <td class="whitespace-nowrap  px-6 py-4 font-medium">
                             {elem.name}
                           </td>
-                          <td class="whitespace-nowrap  px-6 py-4">{elem.age}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">
-                            {elem.email}
-                          </td>
+                          <td class="whitespace-nowrap  px-6 py-4">{elem.email}</td>
                           <td class="whitespace-nowrap  px-6 py-4">{elem.address}</td>
                           <td class="whitespace-nowrap  px-6 py-4">
                             {elem.phone}
-                          </td>
-                          <td class="whitespace-nowrap  px-6 py-4">
-                            {elem.desc}
                           </td>
                           <td class="whitespace-nowrap  px-6 py-4">
                             {/* going to the specific user page -> "view/:id" */}
@@ -101,7 +120,8 @@ export default function () {
                             <Link to={`edit/${elem._id}`}><button className="m-1 p-2 text-white bg-blue-700">
                               <i class="fa-solid fa-pencil"></i>
                             </button></Link>
-                            <button className="m-1 p-2 text-white bg-red-700">
+                            <button className="m-1 p-2 text-white bg-red-700"
+                            onClick={() => deleteUser(elem._id)}>
                               <i class="fa-solid fa-trash"></i>
                             </button>
                           </td>

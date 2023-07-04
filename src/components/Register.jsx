@@ -49,6 +49,7 @@ function Register() {
       }else{
         alert("data added");
         console.log('data added');
+        navigate('/');
       }
   }
   return (
