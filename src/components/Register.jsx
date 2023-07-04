@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
+import {useNavigate} from 'react-router-dom';
 
 function Register() {
+  const navigate = useNavigate();
   const [val, setVal] = useState({
     name: "",
     email: "",

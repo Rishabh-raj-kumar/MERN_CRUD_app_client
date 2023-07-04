@@ -97,9 +97,10 @@ export default function () {
                             <button className="m-1 p-2 text-white bg-green-700">
                               <i class="fa-solid fa-eye"></i>
                             </button></Link>
-                            <button className="m-1 p-2 text-white bg-blue-700">
+                            {/* going to the specific user edit page. -> "edit/:id" */}
+                            <Link to={`edit/${elem._id}`}><button className="m-1 p-2 text-white bg-blue-700">
                               <i class="fa-solid fa-pencil"></i>
-                            </button>
+                            </button></Link>
                             <button className="m-1 p-2 text-white bg-red-700">
                               <i class="fa-solid fa-trash"></i>
                             </button>

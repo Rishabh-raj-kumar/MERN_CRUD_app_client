@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Navbar from "./Navbar";
+import { useParams, useNavigate } from "react-router-dom";
 
 function Edit() {
+
+  const navigate = useNavigate();
   const [val, setVal] = useState({
     name: "",
     email: "",
@@ -22,6 +25,58 @@ function Edit() {
     });
   };
 
+  const {id} = useParams("");
+  console.log(id);
+
+  const getData = async (e) => {
+    const res = await fetch(`/getuser/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (res.status === 422 || !data) {
+      alert("error");
+      console.log("error");
+    } else {
+      setVal(data)
+      console.log("data added");
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const updateUser = async(e) =>{
+    e.preventDefault();
+
+    const {name,email,age,desc,address,phone} = val;
+
+    const res2 = await fetch(`/updateuser/${id}`,{
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body : JSON.stringify({
+        name,email,age,desc,address,phone
+      })
+    });
+
+    const data2 = await res2.json();
+    console.log(data2);
+
+    if(res2.status === 404 || !data2){
+      alert('fill the data');
+    }else{
+      alert('data added successfully')
+      navigate('/');
+    }
+  }
   return (
     <>
       <Navbar />
@@ -143,6 +198,7 @@ function Edit() {
             <button
               type="submit"
               class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-700 uppercase rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+              onClick={updateUser}
             >
               Edit
             </button>
