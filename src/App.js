@@ -16,7 +16,7 @@ function App() {
         <Route path='/register' exact element={<Register />} />
         {/* /:id is used to match the valid user from backend. */}
         <Route path="/edit/:id" exact element={<Edit />}/>
-        <Route path="/details" exact element={<Details />}/>
+        <Route path="/view/:id" exact element={<Details />}/>
       </Routes>
     </Router>
     </>

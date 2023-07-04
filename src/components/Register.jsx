@@ -22,6 +22,33 @@ function Register() {
     });
   };
 
+  const addInpData = async(e) =>{
+      e.preventDefault();
+
+      const {name,email,age,desc,address,phone} = val;
+
+      const res = await fetch('/register',{
+        method : "POST",
+        headers : {
+          "Content-Type" : "application/json"
+        },
+        body : JSON.stringify({
+          name,email,age,desc,address,phone
+        })
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      if(res.status === 422 || !data){
+        alert("error");
+        console.log("error");
+
+      }else{
+        alert("data added");
+        console.log('data added');
+      }
+  }
   return (
     <>
       <Navbar />
@@ -143,6 +170,7 @@ function Register() {
             <button
               type="submit"
               class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-700 uppercase rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+              onClick={addInpData}
             >
               Register
             </button>
